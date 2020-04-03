@@ -10,5 +10,10 @@
 
 ![二维码](https://raw.githubusercontent.com/gxdyxh/elm2/master/springboot-sell/qr.png "二维码")
 
+后台相关
+后台地址 http://demo.gqz666.cn/waimai/seller/login
+账号密码 admin/admin
+
 **Tip**
 因无支付行号，未验证支付相关代码正确性
+数据库每天不定时重置
