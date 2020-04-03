@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="common/layout">
+<head>
+    <title>订单详情</title>
+</head>
+<body>
+
+<div  layout:fragment="content" class="container">
+    <div class="row clearfix">
+        <div class="col-md-8 column">
+            <table class="table table-condensed table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        编号
+                    </th>
+                    <th>
+                        订单号
+                    </th>
+                    <th>
+                        订单金额
+                    </th>
+                    <th>
+                        订单时间
+                    </th>
+                    <th>
+                        订单状态
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${orderDTO.getOrderId()}"> </td>
+                    <td th:text="${orderDTO.getOrderNo()}"> </td>
+                    <td th:text="${orderDTO.getOrderAmount()}"> </td>
+                    <td th:text="${orderDTO.getCreateTime()}"> </td>
+                    <td th:text="${orderDTO.getPayStatusEnum().message}"> </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>商品ID</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>总额</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order,orderStat:${orderDTO.getOrderDetailList()}">
+                    <td th:text="${order.getProductId()}"> </td>
+                    <td th:text="${order.getProductName()}"> </td>
+                    <td th:text="${order.getProductPrice()}"> </td>
+                    <td th:text="${order.getProductQuantity()}"> </td>
+                    <td th:text="${order.getProductQuantity() * order.getProductPrice()}"> </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row clearfix" th:if="${orderDTO.getOrderStatus() ==0 }">
+        <div class="col-md-12 column">
+            <a  th:href="@{'/seller/order/finish?orderId='+${orderDTO.getOrderId()}}" class="btn btn-default btn-primary">完结订单</a>
+            <a th:href="@{'/seller/order/cancel?orderId='+${orderDTO.getOrderId()}}" class="btn btn-default btn-danger">取消订单</a>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
