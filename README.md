@@ -1,24 +1,16 @@
-# vue-het
+# 慕课网-仿写饿了么相关项目实践
 
-## Project setup
-```
-yarn install
-```
+相关课程
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Vue.js 高仿饿了么外卖 App 课程源码，课程地址： http://coding.imooc.com/class/74.html
+2020更新版 Spring Boot双版本(1.5/2.1) 课程地址：https://coding.imooc.com/class/117.html
 
-### Compiles and minifies for production
-```
-yarn build
-```
+vue [前端演示](http://demo.gqz666.cn/sell/ "前端演示")
 
-### Lints and fixes files
-```
-yarn lint
-```
+![](https://raw.githubusercontent.com/gxdyxh/elm2/master/vue2.5-sell/qr.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+spring-boot [项目演示](http://demo.gqz666.cn/waimai/ "项目演示")
+
+![](https://raw.githubusercontent.com/gxdyxh/elm2/master/springboot-sell/qr.png)
+
+后台地址 [后台演示](http://demo.gqz666.cn/waimai/seller/login "后台演示") admin/admin
