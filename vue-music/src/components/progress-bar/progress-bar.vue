@@ -1,7 +1,7 @@
 <template>
   <div class="progress-bar" ref="progressBar" @click="progressClick">
     <div class="bar-inner">
-      <div class="progress" ref="progress"></div>
+      <div class="progress_d" ref="progress"></div>
       <div class="progress-btn-wrapper" ref="progressBtn"
            @touchstart.prevent="progressTouchStart"
            @touchmove.prevent="progressTouchMove"
@@ -58,8 +58,8 @@
         this.$emit('percentChange', percent)
       },
       _offset(offsetWidth) {
-        this.$refs.progress.style.width = `${offsetWidth}px`
-        this.$refs.progressBtn.style['transform'] = `translate3d(${offsetWidth}px,0,0)`
+         this.$refs.progress.style.width = `${offsetWidth}px`
+         this.$refs.progressBtn.style['transform'] = `translate3d(${offsetWidth}px,0,0)`
       }
     },
     watch: {
@@ -85,11 +85,17 @@
       height: 4px
       border-radius: 4px;
       background: rgba(0, 0, 0, 0.3)
-      .progress
+      left: 0;
+      right: 0;
+      width: 100%;
+      .progress_d
         position: absolute
         height: 100%
         background: $color-theme
         border-radius: 4px;
+        left: 0;
+        right: unset;
+        margin: unset;
       .progress-btn-wrapper
         position: absolute
         left: -8px
