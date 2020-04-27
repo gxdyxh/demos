@@ -3,7 +3,10 @@
 相关课程
 
 Vue.js 高仿饿了么外卖 App 课程源码，课程地址： http://coding.imooc.com/class/74.html
+
 2020更新版 Spring Boot双版本(1.5/2.1) 课程地址：https://coding.imooc.com/class/117.html
+
+Vue2.0开发企业级移动端音乐Web App 课程地址：https://coding.imooc.com/class/107.html
 
 vue_sell_2 [前端演示](http://demo.gqz666.cn/sell/ "前端演示")
 
