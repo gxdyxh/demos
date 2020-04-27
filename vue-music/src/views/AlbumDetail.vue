@@ -30,10 +30,11 @@
         // },
         methods: {
             _getSongList() {
-                if (!this.album) {
+                if (!this.album.songlist) {
                     this.$router.push({
                         path: '/'
                     })
+                    return
                 }
                 // console.log('album', this.album)
                 // console.log('_getSongList', this.album.songlist)
