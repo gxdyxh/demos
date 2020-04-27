@@ -165,7 +165,7 @@ export default {
         },
         next() {
             if (!this.songReady) { return }
-            if (this.playlist.length === 1) {
+            if (this.playList.length === 1) {
                 this.loop()
                 return
             }
@@ -177,7 +177,7 @@ export default {
         },
         prev() {
             if (!this.songReady) { return }
-            if (this.playlist.length === 1) {
+            if (this.playList.length === 1) {
                 this.loop()
                 return
             }
