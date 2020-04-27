@@ -8,7 +8,7 @@
         >
         <div class="normal-player" v-show="fullScreen">
             <div class="background">
-                <img width="100%" height="100%" :src="currentSong.image">
+                <img  width="100%" height="100%" :src="currentSong.image">
             </div>
             <div class="top">
                 <div class="back" @click="back">
@@ -22,8 +22,8 @@
                     <cube-slide-item >
                         <div class="middle-l">
                             <div class="cd-wrapper" ref="cdWrapper">
-                                <div class="cd" :class="cdCls">
-                                    <img class="image" :src="currentSong.image">
+                                <div class="cd" ref="imageWrapper">
+                                    <img  ref="normalImage" :class="cdCls" class="image" :src="currentSong.image">
                                 </div>
                             </div>
                             <div class="playing-lyric-wrapper">
@@ -79,7 +79,9 @@
         <transition name="mini">
         <div class="mini-player" v-show="!fullScreen" @click="open">
             <div class="icon">
-                <img :class="cdCls" width="40" height="40" :src="currentSong.image">
+                <div class="imgWrapper" ref="miniWrapper">
+                    <img ref="miniImage" :class="cdCls" width="40" height="40" :src="currentSong.image">
+                </div>
             </div>
             <div class="text">
                 <h2 class="name" v-html="currentSong.name"></h2>
@@ -112,7 +114,8 @@ import { playerMixin } from 'common/js/mixin'
 import { playMode } from 'common/js/config'
 import Playlist from 'components/playlist/playlist'
 import Lyric from 'lyric-parser'
-
+import { prefixStyle } from 'common/js/dom'
+const transform = prefixStyle('transform')
 export default {
     mixins: [playerMixin],
     name: 'player',
@@ -259,12 +262,12 @@ export default {
         leave(el, done) {
             this.$refs.cdWrapper.style.transition = 'all 0.4s'
             const { x, y, scale } = this._getPosAndScale()
-            this.$refs.cdWrapper.style['transform'] = `translate3d(${x}px,${y}px,0) scale(${scale})`
+            this.$refs.cdWrapper.style[transform] = `translate3d(${x}px,${y}px,0) scale(${scale})`
             this.$refs.cdWrapper.addEventListener('transitionend', done)
         },
         afterLeave() {
             this.$refs.cdWrapper.style.transition = ''
-            this.$refs.cdWrapper.style['transform'] = ''
+            this.$refs.cdWrapper.style[transform] = ''
         },
         back() {
             this.setFullScreen(false)
@@ -284,14 +287,30 @@ export default {
             this.playingLyric = txt
         },
         getLyric() {
-            console.log(this.currentSong)
+            // console.log(this.currentSong)
             this.currentSong.getLyric().then((lyric) => {
                 this.currentLyric = new Lyric(lyric, this.lyricHandle)
-                console.log(this.currentLyric)
+                // console.log(this.currentLyric)
                 if (this.playing) {
                     this.currentLyric.play()
                 }
             })
+        },
+        /**
+         * 计算内层Image的transform，并同步到外层容器
+         * @param wrapper
+         * @param inner
+         */
+        syncWrapperTransform (wrapper, inner) {
+            if (!this.$refs[wrapper]) {
+                return
+            }
+            const imageWrapper = this.$refs[wrapper]
+            const image = this.$refs[inner]
+            console.log(getComputedStyle(image)[transform])
+            const wTransform = getComputedStyle(imageWrapper)[transform]
+            const iTransform = getComputedStyle(image)[transform]
+            imageWrapper.style[transform] = wTransform === 'none' ? iTransform : iTransform.concat(' ', wTransform)
         },
         ...mapActions(['savePlayHistory'])
     },
@@ -351,6 +370,13 @@ export default {
                     const audio = this.$refs.audio
                     newPlay ? audio.play() : audio.pause()
                 })
+                if (!newPlay) {
+                    if (this.fullScreen) {
+                        this.syncWrapperTransform('imageWrapper', 'normalImage')
+                    } else {
+                        this.syncWrapperTransform('miniWrapper', 'miniImage')
+                    }
+                }
             }
         }
     },
@@ -436,13 +462,7 @@ export default {
             .cd
               width: 100%
               height: 100%
-              box-sizing: border-box
-              border: 10px solid rgba(255, 255, 255, 0.1)
               border-radius: 50%
-              &.play
-                animation: rotate 20s linear infinite
-              &.pause
-                animation-play-state: paused
               .image
                 position: absolute
                 left: 0
@@ -450,7 +470,12 @@ export default {
                 width: 100%
                 height: 100%
                 border-radius: 50%
-
+                box-sizing: border-box
+                border: 10px solid rgba(255, 255, 255, 0.1)
+                &.play
+                  animation: rotate 20s linear infinite
+                &.pause
+                  animation-play-state: paused
           .playing-lyric-wrapper
             width: 80%
             margin: 30px auto 0 auto
@@ -567,12 +592,16 @@ export default {
         flex: 0 0 40px
         width: 40px
         padding: 0 10px 0 20px
-        img
-          border-radius: 50%
-          &.play
-            animation: rotate 10s linear infinite
-          &.pause
-            animation-play-state: paused
+        .imgWrapper
+            height: 40px;
+            width: 40px;
+            border-radius: 50%
+            img
+              border-radius: 50%
+              &.play
+                animation: rotate 10s linear infinite
+              &.pause
+                animation-play-state: paused
       .text
         display: flex
         flex-direction: column
